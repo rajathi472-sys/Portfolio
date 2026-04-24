@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfolio{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+
+        body { background: #0a0a0a; color: #fff; }
+
+        /* Navbar */
+        .navbar { background: rgba(10,10,10,0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid #222; }
+        .navbar-brand { font-weight: 700; font-size: 1.5rem; color: #6c63ff !important; }
+        .nav-link { color: #ccc !important; font-weight: 500; transition: color 0.3s; }
+        .nav-link:hover, .nav-link.active { color: #6c63ff !important; }
+
+        /* Buttons */
+        .btn-primary { background: #6c63ff; border: none; padding: 10px 28px; border-radius: 30px; }
+        .btn-primary:hover { background: #5a52d5; transform: translateY(-2px); transition: all 0.3s; }
+        .btn-outline-primary { border-color: #6c63ff; color: #6c63ff; border-radius: 30px; padding: 8px 24px; }
+        .btn-outline-primary:hover { background: #6c63ff; color: #fff; }
+
+        /* Cards */
+        .card { background: #111; border: 1px solid #222; border-radius: 16px; transition: transform 0.3s, box-shadow 0.3s; }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(108,99,255,0.15); }
+        .card-img-top { border-radius: 16px 16px 0 0; height: 200px; object-fit: cover; }
+
+        /* Section */
+        .section { padding: 80px 0; }
+        .section-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; }
+        .section-title span { color: #6c63ff; }
+        .section-subtitle { color: #888; margin-bottom: 50px; }
+        .divider { width: 60px; height: 4px; background: #6c63ff; border-radius: 2px; margin: 10px 0 40px 0; }
+
+        /* Footer */
+        footer { background: #111; border-top: 1px solid #222; padding: 30px 0; text-align: center; color: #888; }
+        footer a { color: #6c63ff; text-decoration: none; margin: 0 10px; font-size: 1.3rem; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #6c63ff; border-radius: 3px; }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}"></a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav ms-auto gap-2">
+    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#skills">Skills</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#projects">Projects</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
+</ul> 
+        </div>
+    </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer>
+    <p>© 2026 Rajathi P. Built with Django 💜</p>
+    <div class="mt-2">
+     <a href="https://github.com/rajathi472-sys" target="_blank">
+    <i class="fab fa-github"></i>
+</a>   
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

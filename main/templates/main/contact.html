@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Contact - Portfolio{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <p class="section-subtitle text-center">GET IN TOUCH</p>
+                <h2 class="section-title text-center">Contact <span>Me</span></h2>
+                <div class="divider mx-auto"></div>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert" style="background:#6c63ff22; border:1px solid #6c63ff; color:#a78bfa; border-radius:12px;">
+                    ✅ {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <!-- ✅ Contact Form -->
+                <div class="card p-4 p-lg-5 mt-4">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+                            <label>Your Name</label>
+                            <input type="text" name="name" required class="form-control">
+                        </div>
+
+                        <div class="mb-4">
+                            <label>Your Email</label>
+                            <input type="email" name="email" required class="form-control">
+                        </div>
+
+                        <div class="mb-4">
+                            <label>Message</label>
+                            <textarea name="message" rows="5" required class="form-control"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Send Message 🚀
+                        </button>
+                    </form>
+                </div>
+
+                <!-- ✅ Only GitHub icon -->
+                <div class="text-center mt-5">
+                    <a href="https://github.com/rajathi472-sys" target="_blank">
+                        <i class="fab fa-github" style="font-size:2rem; color:#a78bfa;"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

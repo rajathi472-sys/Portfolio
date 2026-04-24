@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Portfolio{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section id="home" style="min-height:100vh; display:flex; align-items:center; background: radial-gradient(ellipse at 60% 50%, #1a1040 0%, #0a0a0a 70%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <p style="color:#6c63ff; font-weight:600; letter-spacing:2px;">HELLO, I'M</p>
+                <h1 style="font-size:3.5rem; font-weight:700; line-height:1.2;">Rajathi P<br><span style="color:#6c63ff;">Software Developer</span></h1>
+                <p style="color:#aaa; font-size:1.1rem; margin:20px 0 35px;">I’m a Software Developer (2026) with a CGPA of 8.28, focused on building web applications using Python and Django. I have hands-on experience creating full-stack projects, designing REST APIs, and working with MySQL. I’ve also completed an internship as a Python Backend Developer and enjoy building scalable backend systems.</p>
+                <a href="#projects" class="btn btn-outline-primary me-3">View Projects</a>
+                <a href="#contact" class="btn btn-outline-primary me-3">Hire Me</a>
+                <a href="{% url 'resume' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-download me-2"></i>Resume
+                </a>
+            </div>
+            <div class="col-lg-6 text-center mt-5 mt-lg-0">
+<img src="{% static 'img/profile.jpg' %}" alt="Your Name"
+    style="width:320px; height:320px; border-radius:50%; object-fit:cover; border:4px solid #6c63ff; box-shadow:0 0 80px rgba(108,99,255,0.4);">  
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Skills Section -->
+<section id="skills" class="section">
+    <div class="container">
+        <p class="section-subtitle text-center">WHAT I KNOW</p>
+        <h2 class="section-title text-center">My <span>Skills</span></h2>
+        <div class="divider mx-auto"></div>
+
+        {% regroup skills by get_category_display as skill_groups %}
+
+        <div class="row g-4 mt-3">
+            {% for group in skill_groups %}
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <h6 style="color:#6c63ff; font-weight:600; margin-bottom:15px;">
+                        <i class="fas fa-layer-group me-2"></i>{{ group.grouper }}
+                    </h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for skill in group.list %}
+                        <span style="background:#6c63ff22; color:#a78bfa; padding:6px 16px; border-radius:20px; font-size:0.9rem; border:1px solid #6c63ff44;">
+                            {{ skill.name }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section" style="background:#0d0d0d;">
+    <div class="container">
+        <p class="section-subtitle text-center">WHAT I'VE BUILT</p>
+        <h2 class="section-title text-center">My <span>Projects</span></h2>
+        <div class="divider mx-auto"></div>
+
+        
+        <div class="row g-4" id="projects-container">
+            {% for project in projects %}
+            <div class="col-md-4 project-item" data-category="{{ project.category }}">
+                <div class="card h-100">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="card-body p-4">
+                        <span style="background:#6c63ff22; color:#6c63ff; padding:4px 12px; border-radius:20px; font-size:0.8rem;">{{ project.get_category_display }}</span>
+                        <h5 class="mt-3 mb-2">{{ project.title }}</h5>
+                        <p style="color:#888; font-size:0.9rem;">{{ project.description|truncatewords:20 }}</p>
+                        <div class="mt-3">
+                            {% if project.url %}
+                            <a href="{{ project.url }}" class="btn btn-primary btn-sm me-2" target="_blank">Live Demo</a>
+                            {% endif %}
+                            {% if project.github_url %}
+                            <a href="{{ project.github_url }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center" style="color:#888;">
+                <p>No projects yet. Add some from the admin panel!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <p class="section-subtitle text-center">GET IN TOUCH</p>
+                <h2 class="section-title text-center">Contact <span>Me</span></h2>
+                <div class="divider mx-auto"></div>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert mt-3" style="background:#6c63ff22; border:1px solid #6c63ff; color:#a78bfa; border-radius:12px;">
+                    ✅ {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <div class="card p-4 p-lg-5 mt-4">
+                    <form method="POST" action="{% url 'contact' %}">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label style="color:#aaa; margin-bottom:8px; display:block;">Your Name</label>
+                            <input type="text" name="name" required class="form-control"
+                                style="background:#1a1a1a; border:1px solid #333; color:#fff; border-radius:10px; padding:12px 16px;">
+                        </div>
+                        <div class="mb-4">
+                            <label style="color:#aaa; margin-bottom:8px; display:block;">Your Email</label>
+                            <input type="email" name="email" required class="form-control"
+                                style="background:#1a1a1a; border:1px solid #333; color:#fff; border-radius:10px; padding:12px 16px;">
+                        </div>
+                        <div class="mb-4">
+                            <label style="color:#aaa; margin-bottom:8px; display:block;">Message</label>
+                            <textarea name="message" rows="5" required class="form-control"
+                                style="background:#1a1a1a; border:1px solid #333; color:#fff; border-radius:10px; padding:12px 16px;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" style="padding:14px;">
+                            Send Message 🚀
+                        </button>
+                    </form>
+            
+
+            
+                
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Animate skill bars
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const bar = entry.target;
+            bar.style.width = bar.getAttribute('data-width') + '%';
+        }
+    });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skill-bar-fill').forEach(bar => observer.observe(bar));
+
+// Filter projects by category
+function filterProjects(category, btn) {
+    // Update button styles
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-outline-primary');
+    });
+    btn.classList.remove('btn-outline-primary');
+    btn.classList.add('btn-primary');
+
+    // Show/hide projects
+    document.querySelectorAll('.project-item').forEach(item => {
+        if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+</script>
+{% endblock %}
