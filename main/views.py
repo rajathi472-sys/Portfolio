@@ -38,13 +38,17 @@ def contact(request):
         Contact.objects.create(name=name, email=email, message=message)
 
         # Send email
-        send_mail(
-            subject=f'Portfolio Contact from {name}',
-            message=f'Name: {name}\nEmail: {email}\n\nMessage:\n{message}',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.EMAIL_HOST_USER],
-        )
-        messages.success(request, 'Message sent successfully!')
+        try:
+            send_mail(
+                subject=f'Portfolio Contact from {name}',
+                message=f'Name: {name}\nEmail: {email}\n\nMessage:\n{message}',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False,
+            )
+            messages.success(request, 'Message sent successfully!')
+        except Exception as e:
+            messages.error(request, f'Message saved but email failed: {str(e)}')
 
     return render(request, 'contact.html')
 import os
